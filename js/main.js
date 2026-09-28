@@ -389,9 +389,15 @@ function celebrateMilestone(node) {
       });
     }
 
-    /* Desktop wheels pause on the milestone the next notch would cross,
-     * long enough for the sticker to read, then scrolling continues.
-     * Touch uses scroll-snap-stop instead. */
+    /* Notched mouse wheels pause briefly on the milestone the next notch would
+     * cross, so the sticker reads. Trackpads and touch scroll freely: their
+     * momentum stream can't be held without feeling stuck. */
+    function isNotchedWheel(event) {
+      if (event.deltaMode !== 0) return true;
+      const dy = Math.abs(event.deltaY);
+      return event.deltaX === 0 && Number.isInteger(event.deltaY) && dy >= 50;
+    }
+
     function bindMilestonePause() {
       const fine = window.matchMedia("(pointer: fine)");
       if (!fine.matches || reduced.matches) return;
@@ -401,7 +407,7 @@ function celebrateMilestone(node) {
       window.addEventListener(
         "wheel",
         (event) => {
-          if (reduced.matches || event.ctrlKey) return;
+          if (reduced.matches || event.ctrlKey || !isNotchedWheel(event)) return;
           const now = performance.now();
           if (now < lockUntil) {
             if (event.deltaY < 0) {
@@ -441,7 +447,7 @@ function celebrateMilestone(node) {
           if (!target) return;
 
           target.dataset.paused = "1";
-          lockUntil = now + 780;
+          lockUntil = now + 420;
           armed = true;
           event.preventDefault();
           window.scrollTo({ top: window.scrollY + targetY - center, behavior: "auto" });

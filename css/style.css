@@ -601,12 +601,6 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(36px, 6vw, 76px) 0;
   position: relative;
   z-index: 1;
-  scroll-snap-align: center;
-  scroll-margin: 8vh;
-}
-
-@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
-  .feature { scroll-snap-stop: always; }
 }
 
 .feature:nth-of-type(even) .feature-art { order: 2; }
@@ -1123,13 +1117,6 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-snap-type: y proximity;
-    scroll-padding-top: var(--header-h);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   /* no travel — the slides cross-fade in place instead */
   .hero-slide {
@@ -1140,7 +1127,6 @@ a { color: inherit; text-decoration: none; }
   .hero-slide.is-active { opacity: 1; }
   .hero-slide.is-parked { transition: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .feature { scroll-snap-align: none; scroll-snap-stop: normal; }
   .feature-node { transition: none; }
   .feature-node.is-celebrating::after,
   .milestone-sticker,
