@@ -458,12 +458,13 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   border: 0;
   border-radius: var(--r-screen);
-  /* Keep the full recording in view — no top crop of the status bar */
+  /* Keep the recording just inside the rounded glass so the status bar stays visible. */
   object-fit: contain;
   object-position: center top;
   background: #000;
   pointer-events: none;
-  transform: translateZ(0);
+  transform: translateZ(0) scale(0.97);
+  transform-origin: center;
 }
 
 /* play badge */
