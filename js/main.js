@@ -487,22 +487,7 @@ function celebrateMilestone(node) {
 
   function heroPhoneVideo() {
     const video = document.querySelector("[data-phone-video]");
-    const toggle = document.querySelector("[data-phone-audio]");
-    if (!video || !toggle) return;
-
-    function label(key, fallback) {
-      const dict = window.DuoI18n && window.DuoI18n.dict;
-      return (dict && dict[key]) || fallback;
-    }
-
-    function syncUi() {
-      const unmuted = !video.muted;
-      toggle.setAttribute("aria-pressed", unmuted ? "true" : "false");
-      toggle.setAttribute(
-        "aria-label",
-        unmuted ? label("hero.mute", "Mute demo") : label("hero.unmute", "Unmute demo")
-      );
-    }
+    if (!video) return;
 
     function fitScreenToVideo() {
       const screen = video.closest(".phone-screen");
@@ -516,12 +501,6 @@ function celebrateMilestone(node) {
       if (play && typeof play.catch === "function") play.catch(() => {});
     }
 
-    toggle.addEventListener("click", () => {
-      video.muted = !video.muted;
-      if (!video.muted) ensurePlaying();
-      syncUi();
-    });
-
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) ensurePlaying();
     });
@@ -534,7 +513,6 @@ function celebrateMilestone(node) {
     if (video.readyState >= 1) fitScreenToVideo();
 
     video.muted = true;
-    syncUi();
     ensurePlaying();
   }
 
